@@ -1,16 +1,26 @@
 const express = require('express');
 const connectDB = require('./config/database'); // Adjust the path as necessary
+const usuarioRoutes = require('./routes/user.routes'); // Adjust the path as necessary
 
+//Initialize express app
 const app = express();
 
-app.use(express.json()); // Middleware to parse JSON requests
+//Middleware
+app.use(express.json()); // Parse JSON bodies     
 
-connectDB(); // Connect to the database
+connectDB(); // Connect to MongoDB
 
 app.get("/", (req, res) => {
-    res.send('Bienivenido a la API del restaurante');   
+    res.send("Welcome to the Restaurant API");
+}
+);
+app.use("/api/usuarios", usuarioRoutes); // Use user routes
+
+// Start the server
+const PORT = process.env.PORT || 3000; 
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
-const port = 3000;  
-app.listen(port, () => {
-    console.log(`Server is running at http://localhost:${port}`);
-    });
+
+
+
